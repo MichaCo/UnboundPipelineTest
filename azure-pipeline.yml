@@ -11,19 +11,13 @@ stages:
 - stage: Run
   displayName: Run image
   jobs:
-
-  - job: RunWin
-    displayName: Run On Windows
-    pool:
-      vmImage: 'windows-latest'
-    steps:
-      - script: docker run --rm -p 5053:5053/tcp -p 5053:5053/udp klutchell/unbound
-        displayName: Run the docker image 
-
   - job: RunUbuntu
     displayName: Run On Ubuntu
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-      - script: docker run --rm -p 5053:5053/tcp -p 5053:5053/udp klutchell/unbound
+      - script: docker run --rm -d -p 5053:5053/tcp -p 5053:5053/udp klutchell/unbound
         displayName: Run the docker image 
+      - script: dig @127.0.0.1 -p 5053
+
+
